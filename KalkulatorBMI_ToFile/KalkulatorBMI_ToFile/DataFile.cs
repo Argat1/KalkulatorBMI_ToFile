@@ -15,7 +15,7 @@ namespace KalkulatorBMI_ToFile
             List<string> output = new List<string>();
             foreach (BMIResult result in bMIResults)
             {
-                string line = $"{result.Title}; {result.Date}; {result.Weight}; {result.Height}; {result.Gender}; {result.Score}; {result.Result};";
+                string line = $"{result.Title}; {result.Date}; {result.Height}; {result.Weight}; {result.Gender}; {result.Score}; {result.Result};";
                 output.Add(line);
             }
             File.WriteAllLines(path, output);

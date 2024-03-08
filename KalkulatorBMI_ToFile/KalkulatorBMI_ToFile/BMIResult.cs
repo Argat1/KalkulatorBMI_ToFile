@@ -4,7 +4,7 @@ using System.Text;
 
 namespace KalkulatorBMI_ToFile
 {
-    public  class BMIResult
+    public class BMIResult
     {
         private static int LastId;
         public int Id { get; set; }
@@ -16,7 +16,8 @@ namespace KalkulatorBMI_ToFile
         public float Score { get; set; }
         public string Result { get; set; }
 
-        /*public BMIResult(int id, string title, DateTime date, int weight, int height, string gender, float score, string result)
+
+        public BMIResult(int id, string title, DateTime date, int weight, int height, string gender, float score, string result)
         {
             Id = id;
             Title = title;
@@ -26,8 +27,7 @@ namespace KalkulatorBMI_ToFile
             Gender = gender;
             Score = score;
             Result = result;
-        }*/
-
+        }
         public BMIResult(string title, DateTime date, int weight, int height, string gender, float score, string result)
         {
             LastId++;
@@ -40,12 +40,10 @@ namespace KalkulatorBMI_ToFile
             Score = score;
             Result = result;
         }
-
         public BMIResult()
         {
 
         }
-
         public void SetLastId()
         {
             LastId = Id;
