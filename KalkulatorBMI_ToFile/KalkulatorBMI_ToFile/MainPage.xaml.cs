@@ -12,7 +12,7 @@ namespace KalkulatorBMI_ToFile
 {
     public partial class MainPage : ContentPage
     {
-        List<BMIResult> BMIresults = DataFile.LoadTxt();
+        List<BMIResult> BMIresults = new List<BMIResult>();
         public MainPage()
         {
             InitializeComponent();

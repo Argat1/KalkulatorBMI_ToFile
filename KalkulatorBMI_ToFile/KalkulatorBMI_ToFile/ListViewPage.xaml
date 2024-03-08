@@ -4,44 +4,38 @@
              x:Class="KalkulatorBMI_ToFile.ListViewPage">
     
     <StackLayout>
-        <Button Text="Usun" Clicked="DeleteBMI" BorderColor="Red"/>
-        <Button Text="Wroc" Clicked="Back" BorderColor="Red"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <Button Text="Usun" Clicked="DeleteBMI" BorderColor="Red" BackgroundColor="White" TextColor="Black" BorderWidth="1" CornerRadius="10" Margin="10"/>
+            <Button Text="Wroc" Clicked="Back" BorderColor="Red"  BackgroundColor="White" TextColor="Black" BorderWidth="1" CornerRadius="10" Margin="10"/>
+        </StackLayout>
+        
         <ListView x:Name="BMIList" RowHeight="200">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout>
+                        <StackLayout HorizontalOptions="CenterAndExpand">
                             <StackLayout Orientation="Horizontal">
-                                <Label Text="Tytuł:" TextColor="Red"/>
-                                <Label Text="{Binding Title}"/>
+                                <Label Text="{Binding Title}" TextColor="Red" HorizontalOptions="CenterAndExpand"/>
                             </StackLayout>
+
                             <StackLayout Orientation="Horizontal">
+                                <StackLayout Padding="10">
                                 <Label Text="Data:"/>
-                                <Label Text="{Binding Date}"/>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
                                 <Label Text="Wzrost:"/>
-                                <Label Text="{Binding Height}"/>
-                                <Label Text="cm"/>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
                                 <Label Text="Waga:"/>
-                                <Label Text="{Binding Weight}"/>
-                                <Label Text="kg"/>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
                                 <Label Text="Wynik:"/>
-                                <Label Text="{Binding Score}"/>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
                                 <Label Text="Płeć:"/>
-                                <Label Text="{Binding Gender}"/>
-                            </StackLayout>
-                            <StackLayout Orientation="Horizontal">
                                 <Label Text="Typ:"/>
+                            </StackLayout>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Date}"/>
+                                <Label Text="{Binding Height}"/>
+                                <Label Text="{Binding Weight}"/>
+                                <Label Text="{Binding Score}"/>
+                                <Label Text="{Binding Gender}"/>
                                 <Label Text="{Binding Result}"/>
                             </StackLayout>
-                            <Line BackgroundColor="Black" HeightRequest="3"/>
+                            </StackLayout>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
