@@ -13,7 +13,7 @@ namespace KalkulatorBMI_ToFile
             get
             {
 
-                string p = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BMIResults.txt");
+                string p = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BMIR4.txt");
                 return p;
             }
         }

@@ -40,5 +40,10 @@ namespace KalkulatorBMI_ToFile
         {
 
         }
+
+        private void Back(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

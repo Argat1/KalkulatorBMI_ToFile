@@ -21,8 +21,10 @@
 
         <Label Text="Wzrost" FontSize="20"/>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-            <Entry x:Name="height_Entry" WidthRequest="150"/>
-            <Label Text=" cm"/>
+
+
+            <Slider x:Name="slider_height" WidthRequest="200" BackgroundColor="Gray" ValueChanged="slider_height_ValueChanged" Maximum="300" Minimum="100" Value="150"/>
+            <Label x:Name="slider_info" Text=" cm"/>
         </StackLayout>
 
 

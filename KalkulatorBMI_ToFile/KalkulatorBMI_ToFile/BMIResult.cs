@@ -11,13 +11,13 @@ namespace KalkulatorBMI_ToFile
         public string Title { get; set; }
         public DateTime Date { get; set; }
         public int Weight { get; set; }
-        public int Height { get; set; }
+        public double Height { get; set; }
         public string Gender { get; set; }
         public float Score { get; set; }
         public string Result { get; set; }
 
 
-        public BMIResult(int id, string title, DateTime date, int weight, int height, string gender, float score, string result)
+        public BMIResult(int id, string title, DateTime date, int weight, double height, string gender, float score, string result)
         {
             Id = id;
             Title = title;
@@ -28,7 +28,7 @@ namespace KalkulatorBMI_ToFile
             Score = score;
             Result = result;
         }
-        public BMIResult(string title, DateTime date, int weight, int height, string gender, float score, string result)
+        public BMIResult(string title, DateTime date, int weight, double height, string gender, float score, string result)
         {
             LastId++;
             Id = LastId;

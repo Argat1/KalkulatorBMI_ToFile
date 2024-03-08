@@ -40,8 +40,8 @@ namespace KalkulatorBMI_ToFile
 
                         newBMIResult.Title = entries[0];
                         newBMIResult.Date = DateTime.Parse(entries[1]);
-                        newBMIResult.Weight = int.Parse(entries[2]);
-                        newBMIResult.Height = int.Parse(entries[3]);
+                        newBMIResult.Height = double.Parse(entries[2]);
+                        newBMIResult.Weight = int.Parse(entries[3]);
                         newBMIResult.Gender = entries[4];
                         newBMIResult.Score = float.Parse(entries[5]);
                         newBMIResult.Result = entries[6];

@@ -2,17 +2,17 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="KalkulatorBMI_ToFile.ListViewPage">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Przejdź do zapisanych" Clicked="DeleteBMI"/>
-    </ContentPage.ToolbarItems>
+    
     <StackLayout>
+        <Button Text="Usun" Clicked="DeleteBMI" BorderColor="Red"/>
+        <Button Text="Wroc" Clicked="Back" BorderColor="Red"/>
         <ListView x:Name="BMIList" RowHeight="200">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout>
                             <StackLayout Orientation="Horizontal">
-                                <Label Text="Tytuł:"/>
+                                <Label Text="Tytuł:" TextColor="Red"/>
                                 <Label Text="{Binding Title}"/>
                             </StackLayout>
                             <StackLayout Orientation="Horizontal">

@@ -25,13 +25,15 @@ namespace KalkulatorBMI_ToFile
 
         private async void CalculateBMI(object sender, EventArgs e)
         {
+            double height = slider_height.Value;
+
             if (!female.IsChecked && !male.IsChecked)
             {
                 await DisplayAlert("Błąd", "Wybierz płeć", "OK");
                 return;
             }
 
-            if (!int.TryParse(weight_Entry.Text, out int weight) || !int.TryParse(height_Entry.Text, out int height) || weight < 20 || height < 100)
+            if (!int.TryParse(weight_Entry.Text, out int weight)  || weight < 20 )
             {
                 await DisplayAlert("Błąd", "Podano błędny wzrost lub wagę", "OK");
                 return;
@@ -95,7 +97,7 @@ namespace KalkulatorBMI_ToFile
                 await DisplayAlert("Błąd", "Podaj poprawny tytuł", "OK");
                 return;
             }
-            BMIResult bmi = new BMIResult(title, DateTime.UtcNow, int.Parse(weight_Entry.Text), int.Parse(height_Entry.Text), genderInvis.Text, float.Parse(scoreLbl.Text), resultLbl.Text);
+            BMIResult bmi = new BMIResult(title, DateTime.UtcNow, int.Parse(weight_Entry.Text), slider_height.Value, genderInvis.Text, float.Parse(scoreLbl.Text), resultLbl.Text);
 
             BMIresults.Add(bmi);
 
@@ -124,6 +126,11 @@ namespace KalkulatorBMI_ToFile
 
             
             */
+        }
+
+        private void slider_height_ValueChanged(object sender, ValueChangedEventArgs e)
+        {
+            slider_info.Text = slider_height.Value.ToString() + "cm";
         }
     }
 }
