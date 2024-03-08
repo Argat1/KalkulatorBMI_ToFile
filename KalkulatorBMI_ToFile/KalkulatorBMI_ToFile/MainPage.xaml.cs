@@ -4,20 +4,62 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using Newtonsoft.Json;
 using Xamarin.Forms;
 
 namespace KalkulatorBMI_ToFile
 {
     public partial class MainPage : ContentPage
     {
+
+        List<BMIResult> bmiResults = new List<BMIResult>();
+       
+
+        public static List<BMIResult> LoadTxt()
+        {
+            string path = App.DbPath;
+
+
+            string text = File.ReadAllText(path);
+
+            if (File.Exists(text))
+            {
+                List<string> results = File.ReadAllLines(path).ToList();
+                List<BMIResult> bmiResults = new List<BMIResult>();
+
+                foreach (var line in results)
+                {
+                    string[] entries = line.Split(';');
+
+                    if (entries.Length >= 1)
+                    {
+                        BMIResult newBMIResults = new BMIResult();
+                        newBMIResults.Title = entries[0];
+                        newBMIResults.Date = DateTime.Parse(entries[1]);
+                        newBMIResults.Gender = entries[2];
+                        newBMIResults.Height = int.Parse(entries[3]);
+                        newBMIResults.Weight = int.Parse(entries[4]);
+                        newBMIResults.Result = entries[5];
+                        newBMIResults.Score = int.Parse(entries[6]);
+
+                        bmiResults.Add(newBMIResults);
+                    }
+                }
+
+                return bmiResults;
+            }
+            else
+            {
+                return null;
+            }
+
+
+        }
         public MainPage()
         {
             InitializeComponent();
-            if (!File.Exists(App.DbPath))
-            {
-                string serializedResultList = JsonConvert.SerializeObject(new List<BMIResult>());
-                File.WriteAllText(App.DbPath, serializedResultList);
-            }
+           
         }
         private async void CalculateBMI(object sender, EventArgs e)
         {
@@ -91,7 +133,20 @@ namespace KalkulatorBMI_ToFile
                 await DisplayAlert("Błąd", "Podaj tytuł zapisu.", "OK");
                 return;
             }
-            string path = App.DbPath;
+            
+            
+            
+            BMIResult bmi = new BMIResult(title, DateTime.Now, int.Parse(entry_weight.Text), int.Parse(entry_height.Text), label_gender_invisible.Text, float.Parse(label_score_invisible.Text), label_result_invisible.Text);
+            bmiResults.Add(bmi);
+            List<string> outputFile = new List<string>();
+            foreach(var result in bmiResults)
+            {
+                string line = $"{result.Title};{result.Date};{result.Gender};{result.Height};{result.Weight};{result.Result};{result.Score};";
+                outputFile.Add(line);
+            }
+            File.WriteAllLines(App.DbPath, outputFile);
+           
+            /*string path = App.DbPath;
             string file = File.ReadAllText(path);
             List<BMIResult> resultList = JsonConvert.DeserializeObject<List<BMIResult>>(file);
 
@@ -106,7 +161,7 @@ namespace KalkulatorBMI_ToFile
             File.WriteAllText(path, serializedResultList);
 
             btn_saveResult.IsVisible = false;
-            btn_saveResult.IsEnabled = false;
+            btn_saveResult.IsEnabled = false;*/
 
             await DisplayAlert("Informacja", "Pomyślnie dodano nowy zapis.", "OK");
         }

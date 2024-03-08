@@ -4,7 +4,8 @@
              x:Class="KalkulatorBMI_ToFile.ListViewPage">
     <ContentPage.Content>
         <StackLayout>
-            <Button Text="Usun" Clicked="Delete_btn"/>
+            <!--<Button Text="Usun" Clicked="Delete_btn"/>-->
+            
 
             <ListView x:Name="listViewBMI" RowHeight="400" SelectionMode="Single">
 

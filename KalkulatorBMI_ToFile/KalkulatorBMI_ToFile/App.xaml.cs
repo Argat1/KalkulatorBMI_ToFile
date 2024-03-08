@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+using System.IO;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -10,7 +12,9 @@ namespace KalkulatorBMI_ToFile
         {
             get
             {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BMIResults.json");
+
+                string p = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "BMIResults.txt");
+                return p;
             }
         }
         public App()
