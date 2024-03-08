@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="KalkulatorBMI_ToFile.ListViewPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button Text="Usun" Clicked="Delete_btn"/>
+
+            <ListView x:Name="listViewBMI" RowHeight="400" SelectionMode="Single">
+
+                <ListView.ItemTemplate >
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout HorizontalOptions="CenterAndExpand">
+                                <Label HorizontalTextAlignment="Center" Text="Tytuł:"/>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Title}"/>
+                                <Label HorizontalTextAlignment="Center" Text="Date:"/>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Date}"/>
+                                <Label HorizontalTextAlignment="Center" Text="Wysokosc:"/>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Height}"/>
+                                <Label HorizontalTextAlignment="Center" Text="Waga:"/>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Weight}"/>
+                                <Label HorizontalTextAlignment="Center" Text="Wynik:"/>
+                                <Label  HorizontalTextAlignment="Center" Text="{Binding Score}"/>
+                                <Label HorizontalTextAlignment="Center" Text="Plec:"/>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Gender}"/>
+                                <Label HorizontalTextAlignment="Center" Text="Typ:"/>
+                                <Label HorizontalTextAlignment="Center" Text="{Binding Result}"/>
+
+
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
