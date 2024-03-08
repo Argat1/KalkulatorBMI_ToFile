@@ -12,163 +12,118 @@ namespace KalkulatorBMI_ToFile
 {
     public partial class MainPage : ContentPage
     {
-
-        List<BMIResult> bmiResults = new List<BMIResult>();
-       
-
-        public static List<BMIResult> LoadTxt()
-        {
-            string path = App.DbPath;
-
-
-            string text = File.ReadAllText(path);
-
-            if (File.Exists(text))
-            {
-                List<string> results = File.ReadAllLines(path).ToList();
-                List<BMIResult> bmiResults = new List<BMIResult>();
-
-                foreach (var line in results)
-                {
-                    string[] entries = line.Split(';');
-
-                    if (entries.Length >= 1)
-                    {
-                        BMIResult newBMIResults = new BMIResult();
-                        newBMIResults.Title = entries[0];
-                        newBMIResults.Date = DateTime.Parse(entries[1]);
-                        newBMIResults.Gender = entries[2];
-                        newBMIResults.Height = int.Parse(entries[3]);
-                        newBMIResults.Weight = int.Parse(entries[4]);
-                        newBMIResults.Result = entries[5];
-                        newBMIResults.Score = int.Parse(entries[6]);
-
-                        bmiResults.Add(newBMIResults);
-                    }
-                }
-
-                return bmiResults;
-            }
-            else
-            {
-                return null;
-            }
-
-
-        }
+        List<BMIResult> BMIresults = DataFile.LoadTxt();
         public MainPage()
         {
             InitializeComponent();
-           
+            if (!File.Exists(App.DbPath))
+            {
+                string serializedBMI = JsonConvert.SerializeObject(new List<BMIResult>());
+                File.WriteAllText(App.DbPath, serializedBMI);
+            }
         }
+
         private async void CalculateBMI(object sender, EventArgs e)
         {
-            if (!RadioButton_female.IsChecked && !RadioButton_male.IsChecked)
+            if (!female.IsChecked && !male.IsChecked)
             {
-                await DisplayAlert("Błąd", "Wybierz płeć.", "OK");
+                await DisplayAlert("Błąd", "Wybierz płeć", "OK");
                 return;
             }
 
-            if (!int.TryParse(entry_weight.Text, out int weight) || !int.TryParse(entry_height.Text, out int height) || weight < 20 || height < 100)
+            if (!int.TryParse(weight_Entry.Text, out int weight) || !int.TryParse(height_Entry.Text, out int height) || weight < 20 || height < 100)
             {
-                await DisplayAlert("Błąd", "Podano błęny wzrost lub błędną masę ciała.", "OK");
+                await DisplayAlert("Błąd", "Podano błędny wzrost lub wagę", "OK");
                 return;
             }
-
-
             string gender = "";
-            if (RadioButton_female.IsChecked)
-            {
-                gender = "kobieta";
-            }
-            if (RadioButton_male.IsChecked)
+            if (male.IsChecked)
             {
                 gender = "mężczyzna";
             }
-
+            if (female.IsChecked)
+            {
+                gender = "kobieta";
+            }
             float score = float.Parse(weight.ToString()) / ((float.Parse(height.ToString()) / 100) * (float.Parse(height.ToString()) / 100));
 
             string result = "";
+
             if (score < 16)
             {
-                result = "wygłodzenie";
+                result = "Wygłodzenie";
             }
             if (score >= 16 && score < 19)
             {
-                result = "niedowaga";
+                result = "Niedowaga";
             }
-            else if (score >= 19 && score < 24)
+            if (score >= 19 && score < 24)
             {
-                result = "waga prawidłowa";
+                result = "Waga prawidłowa";
             }
-            else if ((score >= 24 && score <= 30 && gender == "kobieta") || (score >= 25 && score <= 30 && gender == "mężczyzna"))
+            if (score >= 24 && score <= 30 && gender == "kobieta" || score >= 25 && score <= 30 && gender == "mężczyzna")
             {
-                result = "nadwaga";
+                result = "Nadwaga";
             }
-            else if (score >= 30 && score <= 40)
+            if (score > 30 && score <= 40)
             {
-                result = "otyłość";
+                result = "Otyłość";
             }
-            else if (score >= 40)
+            if (score > 40)
             {
-                result = "skrajna otyłość";
+                result = "Skrajna otyłość";
             }
 
-            label_score.Text = score.ToString("0.00") + " BMI";
-            label_result.Text = "Wynik: " + result + ".";
+            scoreLbl.Text = score.ToString("0.00");
+            resultLbl.Text = result;
+            genderInvis.Text = gender;
 
-            btn_saveResult.IsVisible = true;
-            btn_saveResult.IsEnabled = true;
-
-            label_score_invisible.Text = score.ToString("0.00");
-            label_result_invisible.Text = result;
-            label_gender_invisible.Text = gender;
+            saveBtn.IsEnabled = true;
+            saveBtn.IsVisible = true;
         }
 
-        private async void SaveResult(object sender, EventArgs e)
-        {
-            string title = await DisplayPromptAsync("Tytuł", "Nadaj tytuł", "OK", "ANULUJ", "tytuł");
-            if (string.IsNullOrWhiteSpace(title))
-            {
-                await DisplayAlert("Błąd", "Podaj tytuł zapisu.", "OK");
-                return;
-            }
-            
-            
-            
-            BMIResult bmi = new BMIResult(title, DateTime.Now, int.Parse(entry_weight.Text), int.Parse(entry_height.Text), label_gender_invisible.Text, float.Parse(label_score_invisible.Text), label_result_invisible.Text);
-            bmiResults.Add(bmi);
-            List<string> outputFile = new List<string>();
-            foreach(var result in bmiResults)
-            {
-                string line = $"{result.Title};{result.Date};{result.Gender};{result.Height};{result.Weight};{result.Result};{result.Score};";
-                outputFile.Add(line);
-            }
-            File.WriteAllLines(App.DbPath, outputFile);
-           
-            /*string path = App.DbPath;
-            string file = File.ReadAllText(path);
-            List<BMIResult> resultList = JsonConvert.DeserializeObject<List<BMIResult>>(file);
-
-            if (resultList.Count > 0)
-            {
-                resultList[resultList.Count - 1].SetLastId();
-            }
-
-            resultList.Add(new BMIResult(title, DateTime.Now, int.Parse(entry_weight.Text), int.Parse(entry_height.Text), label_gender_invisible.Text, float.Parse(label_score_invisible.Text), label_result_invisible.Text));
-
-            string serializedResultList = JsonConvert.SerializeObject(resultList);
-            File.WriteAllText(path, serializedResultList);
-
-            btn_saveResult.IsVisible = false;
-            btn_saveResult.IsEnabled = false;*/
-
-            await DisplayAlert("Informacja", "Pomyślnie dodano nowy zapis.", "OK");
-        }
-
-        private void GoToList(object sender, EventArgs e)
+        private void GoToSavedBMI(object sender, EventArgs e)
         {
             Navigation.PushAsync(new ListViewPage());
+        }
+
+        private async void SaveBMI(object sender, EventArgs e)
+        {
+            string title = await DisplayPromptAsync("Tytuł", "Podaj tytuł", "OK", "Anuluj", "tytuł");
+            if (string.IsNullOrWhiteSpace(title))
+            {
+                await DisplayAlert("Błąd", "Podaj poprawny tytuł", "OK");
+                return;
+            }
+            BMIResult bmi = new BMIResult(title, DateTime.UtcNow, int.Parse(weight_Entry.Text), int.Parse(height_Entry.Text), genderInvis.Text, float.Parse(scoreLbl.Text), resultLbl.Text);
+
+            BMIresults.Add(bmi);
+
+            DataFile.WriteToFile(BMIresults);
+
+            saveBtn.IsEnabled = false;
+            saveBtn.IsVisible = false;
+
+            await DisplayAlert("Wydarzenie", "Pomyślnie dodano", "OK");
+            /*
+            string path = App.DbPath;
+            string file = File.ReadAllText(path);
+            List<BMIResult> results = JsonConvert.DeserializeObject<List<BMIResult>>(file);
+
+            if (results.Count > 0)
+            {
+                results[results.Count - 1].SetLastId();
+            }
+
+            BMIResult bmi = new BMIResult(title, DateTime.UtcNow, int.Parse(weight_Entry.Text), int.Parse(height_Entry.Text), genderInvis.Text, float.Parse(scoreLbl.Text), resultLbl.Text);
+
+            results.Add(bmi);
+
+            string serializedBMI = JsonConvert.SerializeObject(results);
+            File.WriteAllText(path, serializedBMI);
+
+            
+            */
         }
     }
 }

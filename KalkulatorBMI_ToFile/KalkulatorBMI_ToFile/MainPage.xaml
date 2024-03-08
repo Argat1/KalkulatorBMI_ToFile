@@ -4,53 +4,42 @@
              x:Class="KalkulatorBMI_ToFile.MainPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Zapisane wyniki"
-                 Clicked="GoToList"
-                 />
+        <ToolbarItem Text="Przejdź do zapisanych" Clicked="GoToSavedBMI"/>
     </ContentPage.ToolbarItems>
-
-    <ContentPage.Content>
-
-        <StackLayout Margin="50">
-            <Label Text="Płeć: " FontSize="25" FontAttributes="Bold"/>
-            <Grid RadioButtonGroup.GroupName="gender">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Label Grid.Row="0" Grid.Column="0" Text="Kobieta" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
-                <Label Grid.Row="0" Grid.Column="1" Text="Mężczyzna" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center"/>
-                <RadioButton x:Name="RadioButton_female" GroupName="gender" Grid.Row="1" Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center"/>
-                <RadioButton x:Name="RadioButton_male" GroupName="gender" Grid.Row="1" Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center"/>
-
-            </Grid>
-            <Label Text="Wysokość: " FontSize="25" FontAttributes="Bold"/>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Entry x:Name="entry_height" Keyboard="Numeric" WidthRequest="200" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                <Label Text="cm" FontSize="20" HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+    <StackLayout Margin="30">
+        <Label Text="Płeć" FontSize="20"/>
+        <StackLayout RadioButtonGroup.GroupName="gender" Orientation="Horizontal" HorizontalOptions="Center">
+            <StackLayout HorizontalOptions="StartAndExpand" Margin="20, 0   ">
+                <Label Text="Kobieta"/>
+                <RadioButton x:Name="female" GroupName="gender" HorizontalOptions="Center"/>
             </StackLayout>
-            <Label Text="Waga: " FontSize="25" FontAttributes="Bold"/>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                <Entry x:Name="entry_weight" Keyboard="Numeric" WidthRequest="200" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
-                <Label Text="kg" FontSize="20" HorizontalOptions="Start" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+            <StackLayout>
+                <Label Text="Mężczyzna"/>
+                <RadioButton x:Name="male" GroupName="gender" HorizontalOptions="Center"/>
             </StackLayout>
-
-            <Button Clicked="CalculateBMI" Text="OBLICZ" HorizontalOptions="Center" Margin="0,20,0,0"/>
-
-            <Label x:Name="label_score" FontSize="30" FontAttributes="Bold" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-            <Label x:Name="label_result" FontSize="25" FontAttributes="Bold" VerticalOptions="Center" HorizontalTextAlignment="Center"/>
-
-            <Button x:Name="btn_saveResult" Clicked="SaveResult" Text="ZAPISZ" HorizontalOptions="Center" Margin="0,20,0,0" IsVisible="false" IsEnabled="False"/>
-
-            <Label x:Name="label_score_invisible" IsVisible="False" IsEnabled="False"/>
-            <Label x:Name="label_result_invisible" IsVisible="False" IsEnabled="False"/>
-            <Label x:Name="label_gender_invisible" IsVisible="False" IsEnabled="False"/>
         </StackLayout>
-    </ContentPage.Content>
+
+        <Label Text="Wzrost" FontSize="20"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <Entry x:Name="height_Entry" WidthRequest="150"/>
+            <Label Text=" cm"/>
+        </StackLayout>
+
+
+        <Label Text="Waga" FontSize="20"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <Entry x:Name="weight_Entry" WidthRequest="150"/>
+            <Label Text=" kg"/>
+        </StackLayout>
+
+        <Button Text="Oblicz" Clicked="CalculateBMI"/>
+
+        <Label x:Name="scoreLbl" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+        <Label x:Name="resultLbl" FontSize="24" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+
+        <Button Text="Zapisz" IsVisible="False" IsEnabled="False" x:Name="saveBtn" Clicked="SaveBMI" HorizontalOptions="CenterAndExpand" WidthRequest="100" Margin="20"/>
+
+        <Label x:Name="genderInvis" IsVisible="False"/>
+    </StackLayout>
 
 </ContentPage>

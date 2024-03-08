@@ -8,91 +8,37 @@ using System.IO;
 using Newtonsoft.Json;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Collections;
 
 namespace KalkulatorBMI_ToFile
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ListViewPage : ContentPage
     {
-        public List<BMIResult> resultList = new List<BMIResult>();
-
         public ListViewPage()
         {
             InitializeComponent();
-
-            
-
-            resultList = LoadTxt();
-            listViewBMI.ItemsSource = resultList;
-
+            //Load();
+            List<BMIResult> results = DataFile.LoadTxt();
+            BMIList.ItemsSource = results;
         }
-
-        public static List<BMIResult> LoadTxt()
+        public void Load()
         {
             string path = App.DbPath;
 
-            
-                string text = File.ReadAllText(path);
+            if (File.Exists(path))
+            {
+                string serializedResults = File.ReadAllText(path);
 
-                if(File.Exists(text)) 
-                {
-                    List<string> results = File.ReadAllLines(path).ToList();
-                    List<BMIResult> bmiResults = new List<BMIResult>();
+                List<BMIResult> results = JsonConvert.DeserializeObject<List<BMIResult>>(serializedResults);
 
-                    foreach(var line in results)
-                    {
-                        string[] entries = line.Split(';');
-
-                        if(entries.Length >= 1) 
-                        {
-                            BMIResult newBMIResults  = new BMIResult();
-                            newBMIResults.Title = entries[0];
-                            newBMIResults.Date = DateTime.Parse(entries[1]);
-                            newBMIResults.Gender = entries[2];
-                            newBMIResults.Height = int.Parse(entries[3]);
-                            newBMIResults.Weight = int.Parse(entries[4]);
-                            newBMIResults.Result = entries[5];
-                            newBMIResults.Score = int.Parse(entries[6]);
-
-                            bmiResults.Add(newBMIResults);
-                        }
-                    }
-
-                    return bmiResults;
-                }
-                else
-                {
-                    return null;
-                }
-
-            
+                BMIList.ItemsSource = results;
+            }
         }
 
-        /*private void Delete_btn(object sender, EventArgs e)
+        private void DeleteBMI(object sender, EventArgs e)
         {
-            string path = App.DbPath;
 
-            if (!File.Exists(path))
-            {
-                DisplayAlert("Error", "JSON file not found.", "OK");
-                return;
-            }
-
-            BMIResult selectedItem = (BMIResult)listViewBMI.SelectedItem;
-
-            if (selectedItem == null)
-            {
-                DisplayAlert("Błąd", "Prosze wybrac dane.", "OK");
-                return;
-            }
-
-            resultList.Remove(selectedItem);
-
-            string updatedJson = JsonConvert.SerializeObject(resultList);
-
-            File.WriteAllText(path, updatedJson);
-
-            DisplayAlert("Sukces", "Usunieto.", "OK");
-        }*/
+        }
     }
 }
